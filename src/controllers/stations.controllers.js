@@ -42,7 +42,7 @@ export const scheduleTrains = async (req, res) => {
 
         const stationSeleted = '#content-homepage > div > div > div.col-md-3.discover-left > table.boxschedule-table > tbody > tr > td'
 
-        const days = $(stationSeleted).text().split(/6|PM/).filter((x, i) => (i + 1) % 2 !== 0 && x)
+        const days = $(stationSeleted).text().split(/6|PM/).filter((x, i) => (i + 1) % 2 !== 0 && x) ?? 'Date not found'
         const hours = $(stationSeleted).text().split(/6|PM/).filter((x, i) => (i + 1) % 2 === 0).map(x => `6${x}PM`)
 
         res.json({ days, hours })
@@ -54,7 +54,7 @@ export const scheduleTrains = async (req, res) => {
 
 export const stationsCableway = async (req, res) => {
     try {
-        // let { station } = req.query
+
         const { data } = await axios(`https://www.telefericosantodomingo.com/estaciones-teleferico-santo-domingo`)
         const $ = cheerio.load(data)
 
@@ -72,4 +72,40 @@ export const stationsCableway = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+
+
+}
+
+export const opretNews = async (req, res) => {
+    try {
+        const { data } = await axios(`https://www.opret.gob.do/Noticias/NoticiaTodas`)
+        const $ = cheerio.load(data)
+
+        const newsTitle = '#noticia > div > div.col-lg-8.col-md-8.col-sm-8';
+
+        let newArray = $(newsTitle).text().trim().split('\n').filter(x => x).map(x => x.replace(/^[ ]+/g, "")).filter(x => x)
+
+        let count = 0;
+
+        const arr3 = []
+
+        for (let i = 0; i < newArray.length; i++) {
+
+            if (i + 1 === newArray.length) break;
+            if (i > 6) break;
+
+            let ob = {
+                title: newArray[count],
+                date: newArray[count + 1],
+                description: newArray[count + 2]
+            }
+            count += 3;
+
+            arr3.push(ob)
+
+        }
+
+        res.json({ arr3 })
+
+    } catch (error) { console.log(error) };
 }
