@@ -44,8 +44,9 @@ export const scheduleTrains = async (req, res) => {
 
         const days = $(stationSeleted).text().split(/6|PM/).filter((x, i) => (i + 1) % 2 !== 0 && x) ?? 'Date not found'
         const hours = $(stationSeleted).text().split(/6|PM/).filter((x, i) => (i + 1) % 2 === 0).map(x => `6${x}PM`)
+        const schedulesMetro = [days, hours]
 
-        res.json({ days, hours })
+        res.json({ schedulesMetro })
 
     } catch (error) {
         console.log(error);
