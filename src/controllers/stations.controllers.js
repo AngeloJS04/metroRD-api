@@ -87,7 +87,7 @@ export const opretNews = async (req, res) => {
 
         let count = 0;
 
-        const arr3 = []
+        const newsList = []
 
         for (let i = 0; i < newArray.length; i++) {
 
@@ -101,11 +101,11 @@ export const opretNews = async (req, res) => {
             }
             count += 3;
 
-            arr3.push(ob)
+            newsList.push(ob)
 
         }
 
-        res.json({ arr3 })
+        res.json({ newsList })
 
     } catch (error) { console.log(error) };
 }

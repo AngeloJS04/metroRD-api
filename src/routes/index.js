@@ -3,7 +3,7 @@ import { stationsTrains, lineTrains, scheduleTrains, stationsCableway, opretNews
 
 const router = Router()
 
-router.get('/station-trains', stationsTrains)
+router.get('/', stationsTrains)
 router.get('/line-trains', lineTrains)
 router.get('/schedule-trains', scheduleTrains)
 router.get('/station-cableway', stationsCableway)
